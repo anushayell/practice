@@ -1,7 +1,6 @@
 #!/bin/bash
 
-validate_input() {
-
+# Function to validate if the input is a valid number
 validate_input() {
   if [[ ! "$1" =~ ^-?[0-9]+$ ]]; then
     echo "Invalid input. Please enter a valid number."
@@ -9,28 +8,27 @@ validate_input() {
   fi
 }
 
-echo "Welcome to the Calculator script \n"
+# Welcome message
+echo -e "Welcome to the Calculator script\n"
 
+# Read and validate the first number
 read -p "Enter first number: " num1
-validate_input($num1)
+validate_input "$num1"
 
+# Read and validate the second number
 read -p "Enter second number: " num2
-validate_input($num2)
+validate_input "$num2"
 
 # Menu for operations
-echo -e "Choose the arthimentic operation.\n"
+echo -e "\nChoose an arithmetic operation."
 
-# Ask for user input
+# Ask for user input for the operation
 read -p "Choose an operation (1 for add, 2 for sub, 3 for mul, 4 for div): " operation
 
-# Read numbers
-read -p "Enter first number: " num1
-read -p "Enter second number: " num2
-
-# Perform operation using case statement
+# Perform the operation using a case statement
 case $operation in
   1)  # Addition
-    echo "Sum of given numbers : $((num1 + num2))"
+    echo "Sum of given numbers: $((num1 + num2))"
     ;;
   2)  # Subtraction
     echo "Difference of given numbers: $((num1 - num2))"
@@ -42,7 +40,7 @@ case $operation in
     if [ "$num2" -eq 0 ]; then
       echo "Error: Division by zero is not allowed."
     else
-      echo "Quotient of given numbers : $((num1 / num2))"
+      echo "Quotient of given numbers: $((num1 / num2))"
     fi
     ;;
   *)
@@ -51,5 +49,5 @@ case $operation in
     ;;
 esac
 
+# Thank you message
 echo "Thank you for using the calculator script."
-
