@@ -1,0 +1,17 @@
+#!/bin/bash
+
+working_dir=$(pwd)
+new_dir="test"
+
+mkdir $working_dir/$new_dir
+cd $working_dir/$new_dir
+
+n=1
+while [$n -le 10]; do
+  touch files${n}.txt
+  ((n++))
+done
+cd $working_dir/$new_dir
+tmstmp=$(date + "%y-%m-%d_%h-%m-%s")
+bkup_file_name="test_files_${tmstmp}.tar.gz"
+tar -czf test_files_${tmstmp}.tar.gz ./$new_dir
