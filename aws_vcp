@@ -1,0 +1,73 @@
+provider "aws" {
+  region = "us-east-1"
+}
+#vcp
+resource "aws_vpc" "main_vcp" {
+  cidr_block = "10.0.0.0/16"
+
+  tags = {
+    Name = "main_vcp"
+  }
+}
+
+# Subnets
+resource "aws_subnet" "public_1a" {
+  vpc_id                  = aws_vpc.main_vcp.id
+  cidr_block              = "10.0.1.0/24"
+  availability_zone       = "us-east-1a"
+
+
+  tags = {
+    Name = "public-subnet-1a"
+  }
+}
+
+ resource "aws_subnet" "public_1b" {
+  vpc_id            = aws_vpc.main_vcp.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "us-east-1b"
+
+  tags = {
+    Name = "public-subnet-1b"
+  }
+}
+
+resource "aws_subnet" "private_2a" {
+  vpc_id            = aws_vpc.main_vcp.id
+  cidr_block        = "10.0.3.0/24"
+  availability_zone = "us-east-1b"
+
+  tags = {
+    Name = "private-subnet-2a"
+  }
+}
+resource "aws_subnet" "private_2b" {
+  vpc_id            = aws_vpc.main_vcp.id
+  cidr_block        = "10.0.4.0/24"
+  availability_zone = "us-east-1b"
+
+  tags = {
+    Name = "private-subnet-2b"
+  }
+}
+#internet_gateway
+resource "aws_internet_gateway" "ig" {
+  vpc_id = aws_vpc.main_vcp.id
+
+  tags = {
+    Name = "internet-gateway"
+  }
+}
+#nat_gateway
+ resource "aws_eip" "nat_eip" {
+    vpc = true
+  }
+  
+resource "aws_nat_gateway" "ng" {
+    allocation_id = aws_eip.nat_eip.id
+    subnet_id     = aws_subnet.public_1a.id
+  
+    tags = {
+      Name = "nat-gateway"
+    }
+  }
